@@ -1,0 +1,17 @@
+{
+  "name": "scrutiny-board-system",
+  "version": "1.0.0",
+  "description": "Scrutiny Board Management System - frontend + serverless API on Vercel, database on Supabase",
+  "private": true,
+  "scripts": {
+    "dev": "node dev.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

@@ -1,0 +1,41 @@
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f8;
+  color: #1a1a1a;
+}
+.auth-card {
+  max-width: 360px;
+  margin: 10vh auto;
+  background: white;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.auth-card h1 { font-size: 20px; margin-bottom: 24px; }
+label { display: block; margin-top: 12px; font-size: 13px; color: #555; }
+input {
+  width: 100%; padding: 8px; margin-top: 4px;
+  border: 1px solid #ccc; border-radius: 4px;
+}
+button {
+  margin-top: 20px; width: 100%; padding: 10px;
+  background: #1d4ed8; color: white; border: none;
+  border-radius: 4px; cursor: pointer; font-size: 14px;
+}
+button:hover { background: #1e40af; }
+.error { color: #dc2626; font-size: 13px; margin-top: 10px; }
+
+.topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #1d4ed8; color: white; padding: 12px 24px;
+}
+.topbar button {
+  width: auto; background: white; color: #1d4ed8; padding: 6px 14px;
+}
+.container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; font-size: 14px; }
+th { color: #555; font-weight: 600; }
