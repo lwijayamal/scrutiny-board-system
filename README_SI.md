@@ -29,6 +29,8 @@
    - මෙම string එක copy කරගන්න — එය මෙසේ පෙනේ:
      ```
      postgresql://postgres.xxxxxxxxxxxx:[YOUR-PASSWORD]@aws-0-xx-xxxx-x.pooler.supabase.com:6543/postgres
+
+     efO6me51IrAxrXPz = DB password
      ```
    - `[YOUR-PASSWORD]` කොටස ඔබ project සෑදූ විට set කළ **සත්‍ය database password** එකෙන් replace කරන්න.
    - ඔබට password එක මතක නැත්නම්: **Project Settings → Database → Reset Database Password** → letters සහ numbers පමණක් ඇති අලුත් password එකක් සකසන්න (special characters `@ # % / : ?` වළක්වා ගන්න — මේවා පසුව URL දෝෂ ඇති කරයි).
