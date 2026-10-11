@@ -1,74 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Dashboard - Scrutiny Board System</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scrutiny Board Management System</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <nav class="topbar">
-    <span id="welcomeMsg"></span>
-    <button id="logoutBtn">Log Out</button>
-  </nav>
-
-  <main class="container">
-    <section>
-      <h2>Students</h2>
-      <table id="studentsTable">
-        <thead><tr><th>Reg No</th><th>Name</th><th>Faculty</th><th>Batch</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section>
-      <h2>Scrutiny Boards</h2>
-      <table id="boardsTable">
-        <thead><tr><th>Board ID</th><th>Faculty</th><th>Academic Year</th><th>Semester</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-  </main>
-
+  <header class="topbar">
+    <button id="menuToggle" class="btn small ghost">&#9776;</button>
+    <div class="brand">Scrutiny Board Management System</div>
+    <div class="who"><span id="whoami"></span> <button id="logout" class="btn small">Logout</button></div>
+  </header>
+  <div class="layout">
+    <nav id="sidebar"></nav>
+    <main id="view"></main>
+  </div>
+  <div id="toast"></div>
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
-  <script>
-    // Redirect to login if not authenticated
-    if (!localStorage.getItem('token')) window.location.href = 'index.html';
-
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    document.getElementById('welcomeMsg').textContent = `Welcome, ${user.full_name || user.username} (${user.role})`;
-
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.clear();
-      window.location.href = 'index.html';
-    });
-
-    async function loadStudents() {
-      try {
-        const students = await apiRequest('/students');
-        const tbody = document.querySelector('#studentsTable tbody');
-        tbody.innerHTML = students.map(s =>
-          `<tr><td>${s.reg_no}</td><td>${s.name}</td><td>${s.faculty_name}</td><td>${s.batch || ''}</td></tr>`
-        ).join('');
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    async function loadBoards() {
-      try {
-        const boards = await apiRequest('/boards');
-        const tbody = document.querySelector('#boardsTable tbody');
-        tbody.innerHTML = boards.map(b =>
-          `<tr><td>${b.board_id}</td><td>${b.faculty_name}</td><td>${b.academic_year}</td><td>${b.semester}</td></tr>`
-        ).join('');
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    loadStudents();
-    loadBoards();
-  </script>
+  <script src="js/app.js"></script>
 </body>
 </html>

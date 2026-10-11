@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Scrutiny Board Management System - Login</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scrutiny Board Management System - Login</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <div class="auth-card">
-    <h1>Scrutiny Board Login</h1>
-    <form id="loginForm">
-      <label>Username</label>
-      <input type="text" id="username" required>
-      <label>Password</label>
-      <input type="password" id="password" required>
-      <button type="submit">Log In</button>
-      <p id="errorMsg" class="error"></p>
-    </form>
+<body class="login-page">
+  <div class="login-box">
+    <h1>Scrutiny Board<br>Management System</h1>
+    <p class="muted">Examination paper moderation &amp; scrutiny</p>
+    <div id="msg" class="alert" style="display:none"></div>
+    <label>Username</label>
+    <input id="username" autocomplete="username" autofocus>
+    <label>Password</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <button id="loginBtn" class="btn primary wide">Login</button>
   </div>
-
   <script src="js/config.js"></script>
   <script src="js/api.js"></script>
   <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const errorMsg = document.getElementById('errorMsg');
-      errorMsg.textContent = '';
+    if (Auth.token && Auth.user) location.href = 'dashboard.html';
+    async function doLogin() {
+      const msg = document.getElementById('msg');
+      msg.style.display = 'none';
       try {
-        const data = await apiRequest('/auth/login', { method: 'POST', body: { username, password } });
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        window.location.href = 'dashboard.html';
-      } catch (err) {
-        errorMsg.textContent = err.message;
+        const data = await api('/auth/login', 'POST', {
+          username: document.getElementById('username').value.trim(),
+          password: document.getElementById('password').value
+        });
+        Auth.save(data.token, data.user);
+        location.href = 'dashboard.html';
+      } catch (e) {
+        msg.textContent = e.message;
+        msg.style.display = 'block';
       }
-    });
+    }
+    document.getElementById('loginBtn').addEventListener('click', doLogin);
+    document.getElementById('password').addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
   </script>
 </body>
 </html>

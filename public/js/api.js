@@ -1,18 +1,25 @@
-// Small wrapper around fetch() that attaches the JWT token automatically.
-async function apiRequest(path, { method = 'GET', body = null } = {}) {
-  const token = localStorage.getItem('token');
+const Auth = {
+  get token() { return localStorage.getItem('token'); },
+  get user() { try { return JSON.parse(localStorage.getItem('user')); } catch (e) { return null; } },
+  save(token, user) { localStorage.setItem('token', token); localStorage.setItem('user', JSON.stringify(user)); },
+  clear() { localStorage.removeItem('token'); localStorage.removeItem('user'); }
+};
+
+async function api(path, method, body) {
   const headers = { 'Content-Type': 'application/json' };
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method,
+  if (Auth.token) headers.Authorization = 'Bearer ' + Auth.token;
+  const res = await fetch(API_BASE_URL + path, {
+    method: method || 'GET',
     headers,
-    body: body ? JSON.stringify(body) : null
+    body: body ? JSON.stringify(body) : undefined
   });
-
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(data.error || `Request failed with status ${response.status}`);
+  let data = null;
+  try { data = await res.json(); } catch (e) { /* no JSON body */ }
+  if (res.status === 401 && Auth.token) {          // session expired
+    Auth.clear();
+    location.href = 'index.html';
+    throw new Error('Session expired');
   }
+  if (!res.ok) throw new Error((data && data.error) || 'Error ' + res.status);
   return data;
 }
